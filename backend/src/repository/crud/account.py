@@ -14,6 +14,7 @@ from src.utilities.exceptions.password import PasswordDoesNotMatch
 
 
 class AccountCRUDRepository(BaseCRUDRepository):
+
     async def create_account(self, account_create: AccountInCreate) -> Account:
         new_account = Account(username=account_create.username, email=account_create.email, is_logged_in=True)
 
@@ -64,7 +65,9 @@ class AccountCRUDRepository(BaseCRUDRepository):
 
     async def read_user_by_password_authentication(self, account_login: AccountInLogin) -> Account:
         stmt = sqlalchemy.select(Account).where(
-            Account.username == account_login.username, Account.email == account_login.email
+             Account.email == account_login.email
+        ).options(
+            sqlalchemy.orm.joinedload(Account.survey)
         )
         query = await self.async_session.execute(statement=stmt)
         db_account = query.scalar()

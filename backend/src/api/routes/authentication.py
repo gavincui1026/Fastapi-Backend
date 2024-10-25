@@ -44,6 +44,7 @@ async def signup(
             is_logged_in=new_account.is_logged_in,
             created_at=new_account.created_at,
             updated_at=new_account.updated_at,
+            is_survey_completed=False,
         ),
     )
 
@@ -77,5 +78,6 @@ async def signin(
             is_logged_in=db_account.is_logged_in,
             created_at=db_account.created_at,
             updated_at=db_account.updated_at,
+            is_survey_completed=True if db_account.survey else False,
         ),
     )

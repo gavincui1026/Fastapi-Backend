@@ -1,0 +1,14 @@
+version: '2'
+
+authtoken: <YOUR_NGROK_AUTH_TOKEN>
+
+tunnels:
+  api:
+    addr: 8000
+    proto: http
+    region: us  # 可选，指定数据中心区域（如 us、eu、ap 等）
+
+  frontend:
+    addr: 3000
+    proto: http
+    region: us  # 可选，指定数据中心区域（如 us、eu、ap 等）

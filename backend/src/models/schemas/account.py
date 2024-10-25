@@ -18,7 +18,6 @@ class AccountInUpdate(BaseSchemaModel):
 
 
 class AccountInLogin(BaseSchemaModel):
-    username: str
     email: pydantic.EmailStr
     password: str
 
@@ -32,6 +31,7 @@ class AccountWithToken(BaseSchemaModel):
     is_logged_in: bool
     created_at: datetime.datetime
     updated_at: datetime.datetime | None
+    is_survey_completed: bool
 
 
 class AccountInResponse(BaseSchemaModel):

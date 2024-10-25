@@ -5,6 +5,7 @@ import sqlalchemy
 from sqlalchemy.orm import Mapped as SQLAlchemyMapped, mapped_column as sqlalchemy_mapped_column
 from sqlalchemy.sql import functions as sqlalchemy_functions
 
+from src.models.db.questionaire import Questionaire
 from src.repository.table import Base
 
 
@@ -21,6 +22,9 @@ class Account(Base):  # type: ignore
     is_verified: SQLAlchemyMapped[bool] = sqlalchemy_mapped_column(sqlalchemy.Boolean, nullable=False, default=False)
     is_active: SQLAlchemyMapped[bool] = sqlalchemy_mapped_column(sqlalchemy.Boolean, nullable=False, default=False)
     is_logged_in: SQLAlchemyMapped[bool] = sqlalchemy_mapped_column(sqlalchemy.Boolean, nullable=False, default=False)
+    survey: SQLAlchemyMapped["Questionaire"] = sqlalchemy.orm.relationship("Questionaire")
+    company: SQLAlchemyMapped["Company"] = sqlalchemy.orm.relationship("Company", back_populates="account")
+    # website: SQLAlchemyMapped["Website"] = sqlalchemy.orm.relationship("Website", back_populates="account")
     created_at: SQLAlchemyMapped[datetime.datetime] = sqlalchemy_mapped_column(
         sqlalchemy.DateTime(timezone=True), nullable=False, server_default=sqlalchemy_functions.now()
     )
@@ -29,8 +33,6 @@ class Account(Base):  # type: ignore
         nullable=True,
         server_onupdate=sqlalchemy.schema.FetchedValue(for_update=True),
     )
-    credit_balance: SQLAlchemyMapped[int] = sqlalchemy_mapped_column(sqlalchemy.Integer, nullable=False, server_default="0")
-    jobs: SQLAlchemyMapped[typing.List["Job"]] = sqlalchemy.orm.relationship("Job", back_populates="account")
 
     __mapper_args__ = {"eager_defaults": True}
 
